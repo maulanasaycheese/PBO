@@ -1,0 +1,26 @@
+public class FRS {
+    private Mahasiswa mahasiswa;
+    private ArrayList<MataKuliah> daftarMatkul;
+
+    public FRS(Mahasiswa mahasiswa) {
+        this.mahasiswa = mahasiswa;
+        this.daftarMatkul = new ArrayList<>();
+    }
+
+    public void tambahMatkul(MataKuliah mk) {
+        daftarMatkul.add(mk);
+    }
+
+    public void tampilkanFRS() {
+        System.out.println("\n===== FORMULIR STUDI =====");
+        mahasiswa.tampilkanInfo();
+        System.out.println("\nMata Kuliah yang diambil:");
+        int totalSks = 0;
+        for (MataKuliah mk : daftarMatkul) {
+            mk.tampilkanInfo();
+            totalSks += mk.getSks();
+        }
+        System.out.println("Total SKS: " + totalSks);
+        System.out.println("==========================\n");
+    }
+}
