@@ -1,0 +1,55 @@
+import java.util.Scanner;
+
+public class MainApp {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Buat beberapa dosen
+        Dosen d1 = new Dosen("198001", "Dwi Sunaryono");
+        Dosen d2 = new Dosen("198002", "Wahyu Suadi");
+        Dosen d3 = new Dosen("198003", "Suhadi Lili");
+
+        // Buat beberapa mata kuliah
+        MataKuliah mk1 = new MataKuliah("EF34101", "Algoritma dan Pemrograman", 4, d1);
+        MataKuliah mk2 = new MataKuliah("EF245102", "Sistem Digital", 3, d2);
+        MataKuliah mk3 = new MataKuliah("EF233201", "Struktur Data", 4, d3);
+
+        // Buat mahasiswa
+        Mahasiswa mhs = new Mahasiswa("502524", "Callista Fidelya", "Informatika");
+
+        // Simulasi menu
+        int pilihan;
+        do {
+            System.out.println("=== SISTEM FRS MAHASISWA ===");
+            System.out.println("1. Tambah Mata Kuliah");
+            System.out.println("2. Lihat FRS");
+            System.out.println("0. Keluar");
+            System.out.print("Pilihan: ");
+            pilihan = sc.nextInt();
+
+            switch (pilihan) {
+                case 1:
+                    System.out.println("Pilih mata kuliah:");
+                    System.out.println("1. " + mk1.getNama());
+                    System.out.println("2. " + mk2.getNama());
+                    System.out.println("3. " + mk3.getNama());
+                    int pilihMK = sc.nextInt();
+                    if (pilihMK == 1) mhs.getFrs().tambahMatkul(mk1);
+                    else if (pilihMK == 2) mhs.getFrs().tambahMatkul(mk2);
+                    else if (pilihMK == 3) mhs.getFrs().tambahMatkul(mk3);
+                    else System.out.println("Pilihan tidak valid!");
+                    break;
+                case 2:
+                    mhs.getFrs().tampilkanFRS();
+                    break;
+                case 0:
+                    System.out.println("Keluar dari sistem.");
+                    break;
+                default:
+                    System.out.println("Pilihan salah!");
+            }
+        } while (pilihan != 0);
+
+        sc.close();
+    }
+}
