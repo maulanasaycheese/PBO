@@ -1,0 +1,24 @@
+public class Mahasiswa {
+    private String nrp;
+    private String nama;
+    private String jurusan;
+    private FRS frs;
+
+    public Mahasiswa(String nrp, String nama, String jurusan) {
+        this.nrp = nrp;
+        this.nama = nama;
+        this.jurusan = jurusan;
+        this.frs = new FRS(this); 
+    }
+
+    public String getNRP() { return nrp; }
+    public String getNama() { return nama; }
+    public String getJurusan() { return jurusan; }
+    public FRS getFrs() { return frs; }
+
+    public void tampilkanInfo() {
+        System.out.println("NRP      : " + nrp);
+        System.out.println("Nama     : " + nama);
+        System.out.println("Jurusan  : " + jurusan);
+    }
+}
