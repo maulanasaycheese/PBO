@@ -1,0 +1,20 @@
+import java.time.LocalDateTime;
+
+class Transaction {
+    private Coffee coffee;
+    private double amountPaid;
+    private double change;
+    private LocalDateTime date;
+
+    public Transaction(Coffee coffee, double amountPaid, double change) {
+        this.coffee = coffee;
+        this.amountPaid = amountPaid;
+        this.change = change;
+        this.date = LocalDateTime.now();
+    }
+
+    public String toString() {
+        return "[" + date + "] " + coffee.getDescription() +
+               " | Paid: " + amountPaid + " | Change: " + change;
+    }
+}
