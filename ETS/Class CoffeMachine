@@ -1,0 +1,187 @@
+import java.util.*;
+
+class CoffeeMachine {
+    private List<Coffee> menu = new ArrayList<>();
+    private Map<String, Integer> stock = new HashMap<>();
+    private List<Transaction> transactionLog = new ArrayList<>();
+    private final String ADMIN_PASS = "admin123"; // password default
+
+    public CoffeeMachine() {
+        // Tambahkan menu default
+        menu.add(new Coffee("Espresso", "Small", 10000));
+        menu.add(new Coffee("Latte", "Medium", 15000));
+        menu.add(new Coffee("Cappuccino", "Large", 18000));
+
+        // Stok awal
+        stock.put("Espresso", 5);
+        stock.put("Latte", 5);
+        stock.put("Cappuccino", 5);
+    }
+
+    public void displayMenu() {
+        System.out.println("=== VENDING COFFEE MACHINE ===");
+        System.out.println("Menu dan Stok Tersedia:");
+        int i = 1;
+        for (Coffee c : menu) {
+            String name = c.getName();
+            int qty = stock.getOrDefault(name, 0);
+            System.out.println(i + ". " + c.getDescription() +
+                    " - Rp " + c.getPrice() +
+                    " | Stok: " + qty);
+            i++;
+        }
+        System.out.println();
+    }
+
+    public void start() {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n=== SISTEM MESIN KOPI ===");
+            System.out.println("1. Beli Kopi");
+            System.out.println("2. Mode Admin");
+            System.out.println("0. Keluar");
+            System.out.print("Pilih menu: ");
+            int mode = sc.nextInt();
+
+            if (mode == 0) {
+                System.out.println("Terima kasih telah menggunakan mesin kopi!");
+                break;
+            }
+
+            if (mode == 1) {
+                userMode(sc);
+            } else if (mode == 2) {
+                adminMode(sc);
+            } else {
+                System.out.println("Pilihan tidak valid.");
+            }
+        }
+        sc.close();
+    }
+
+    private void userMode(Scanner sc) {
+        displayMenu();
+        System.out.print("Pilih kopi (1-" + menu.size() + ", 0 untuk kembali): ");
+        int choice = sc.nextInt();
+
+        if (choice == 0) return;
+
+        if (choice < 1 || choice > menu.size()) {
+            System.out.println("Pilihan tidak valid!");
+            return;
+        }
+
+        Coffee selected = menu.get(choice - 1);
+        String key = selected.getName();
+
+        if (stock.get(key) == 0) {
+            System.out.println("❌ Stok " + selected.getDescription() + " habis! Mohon tunggu refill.");
+            return;
+        }
+
+        System.out.print("Tambah gula (ya/tidak)? ");
+        String gula = sc.next();
+        System.out.print("Tambah susu (ya/tidak)? ");
+        String susu = sc.next();
+
+        double totalPrice = selected.getPrice();
+        System.out.println("Total harga: Rp " + totalPrice);
+        System.out.print("Masukkan uang: ");
+        double payment = sc.nextDouble();
+
+        if (payment < totalPrice) {
+            System.out.println("⚠️ Uang tidak cukup. Transaksi dibatalkan.");
+            return;
+        }
+
+        double change = payment - totalPrice;
+        System.out.println("☕ Membuat kopi...");
+        try { Thread.sleep(2000); } catch (Exception e) {}
+
+        System.out.println("✅ Kopi " + selected.getDescription() + " siap!");
+        System.out.println("Kembalian: Rp " + change);
+
+        // Kurangi stok
+        stock.put(key, stock.get(key) - 1);
+
+        // Simpan transaksi
+        transactionLog.add(new Transaction(selected, payment, change));
+
+        // Cek stok habis
+        if (stock.get(key) == 0) {
+            System.out.println("[Peringatan Admin] Stok " + key + " habis, perlu refill!");
+        }
+    }
+
+    private void adminMode(Scanner sc) {
+        System.out.print("Masukkan password admin: ");
+        String pass = sc.next();
+
+        if (!pass.equals(ADMIN_PASS)) {
+            System.out.println("❌ Password salah!");
+            return;
+        }
+
+        while (true) {
+            System.out.println("\n=== MODE ADMIN ===");
+            System.out.println("1. Lihat Stok");
+            System.out.println("2. Refill Stok");
+            System.out.println("3. Lihat Log Transaksi");
+            System.out.println("0. Keluar Admin Mode");
+            System.out.print("Pilih menu: ");
+            int pilihan = sc.nextInt();
+
+            if (pilihan == 0) break;
+
+            switch (pilihan) {
+                case 1:
+                    showStock();
+                    break;
+                case 2:
+                    refillStock(sc);
+                    break;
+                case 3:
+                    showTransactionLog();
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid!");
+            }
+        }
+    }
+
+    private void showStock() {
+        System.out.println("\n=== DATA STOK ===");
+        for (String key : stock.keySet()) {
+            System.out.println("- " + key + " : " + stock.get(key) + " cup");
+        }
+    }
+
+    private void refillStock(Scanner sc) {
+        System.out.println("\n=== REFILL STOK ===");
+        showStock();
+        System.out.print("Masukkan nama kopi yang ingin di-refill: ");
+        sc.nextLine(); // consume newline
+        String coffeeName = sc.nextLine();
+
+        if (!stock.containsKey(coffeeName)) {
+            System.out.println("❌ Nama kopi tidak ditemukan.");
+            return;
+        }
+
+        System.out.print("Tambah berapa cup? ");
+        int add = sc.nextInt();
+        stock.put(coffeeName, stock.get(coffeeName) + add);
+        System.out.println("✅ Stok " + coffeeName + " berhasil ditambah " + add + " cup.");
+    }
+
+    public void showTransactionLog() {
+        System.out.println("\n=== TRANSACTION LOG ===");
+        if (transactionLog.isEmpty()) {
+            System.out.println("(Belum ada transaksi)");
+        } else {
+            for (Transaction t : transactionLog) {
+                System.out.println(t);
+            }
+        }
+    }
+}
