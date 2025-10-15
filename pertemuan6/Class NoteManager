@@ -1,0 +1,59 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+ 
+public class NoteManager {
+    public static void main(String[] args) {
+        ArrayList<Note> notes = new ArrayList<>();
+        Scanner input = new Scanner(System.in);
+        int pilihan;
+ 
+        do {
+            System.out.println("\n=== Note Manager ===");
+            System.out.println("1. Tambah Catatan");
+            System.out.println("2. Lihat Semua Catatan");
+            System.out.println("3. Hapus Catatan");
+            System.out.println("4. Keluar");
+            System.out.print("Pilih menu: ");
+            pilihan = input.nextInt();
+            input.nextLine(); // clear buffer
+ 
+            switch (pilihan) {
+                case 1:
+                    System.out.print("Masukkan judul catatan: ");
+                    String judul = input.nextLine();
+                    System.out.print("Masukkan isi catatan: ");
+                    String isi = input.nextLine();
+                    notes.add(new Note(judul, isi));
+                    System.out.println("Catatan berhasil ditambahkan!");
+                    break;
+                case 2:
+                    System.out.println("\nDaftar Catatan:");
+                    if (notes.isEmpty()) {
+                        System.out.println("Belum ada catatan.");
+                    } else {
+                        for (int i = 0; i < notes.size(); i++) {
+                            System.out.println((i + 1) + ". " + notes.get(i));
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.print("Masukkan nomor catatan yang akan dihapus: ");
+                    int index = input.nextInt();
+                    if (index > 0 && index <= notes.size()) {
+                        notes.remove(index - 1);
+                        System.out.println("Catatan berhasil dihapus!");
+                    } else {
+                        System.out.println("Nomor tidak valid.");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Terima kasih! Program selesai.");
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid.");
+            }
+        } while (pilihan != 4);
+ 
+        input.close();
+    }
+}
