@@ -1,0 +1,28 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class Responder{
+    private Map<String, String> responses;
+    public Responder(){
+        responses = new HashMap<>();
+        responses.put("penuh", "Mohon maaf, kelas tersebut sudah mencapai kapasitas maksimum. Silakan coba kelas paralel lain atau hubungi dosen pengampu untuk penambahan kuota");
+        responses.put("kuota", "Jika kuota kelas sudah penuh, Anda dapat memantau sistem FRS secara berkala karena mahasiswa lain mungkin membatalkan kelas tersebut");
+        responses.put("frs belum disetujui", "Silakan hubungi dosen wali dan lakukan konsultasi terlebih dahulu");
+        responses.put("ipk kurang", "Anda tidak memenuhi syarat pengambilan mata kuliah tersebut. Harap hubungi dosen wali atau pihak akademik untuk rekomendasi pengganti");
+        responses.put("tidak tersedia", "Mata kuliah yang Anda cari saat ini tidak tersedia. Pastikan periode FRS sudah dibuka atau periksa daftar mata kuliah aktif semester ini");
+        responses.put("sks terisi semua", "Anda tidak dapat menambah mata kuliah karena sisa SKS Anda sudah habis");
+        responses.put("jadwal bentrok", "Terjadi bentrok jadwal antara dua mata kuliah. Silakan ubah salah satu kelas atau pilih waktu lain yang tidak konflik");
+        responses.put("sistem down", "Kami sedang melakukan pemeliharaan sistem FRS. Mohon tunggu beberapa saat dan coba kembali nanti");
+        responses.put("frs tidak bisa diakses", "Sistem FRS saat ini mungkin sedang padat atau dalam maintenance. Silakan coba beberapa menit lagi atau hubungi admin akademik");
+        responses.put("gagal login", "Login gagal karena validasi data FRS belum lengkap");
+    }
+    public String generateResponse(String input){
+        String lower = input.toLowerCase();
+        for(String keyword : responses.keySet()){
+            if(lower.contains(keyword)){
+                return responses.get(keyword);
+            }
+        }
+        return "Terima kasih telah menghubungi sistem bantuan FRS. Mohon jelaskan permasalahan Anda dengan lebih detail agar kami dapat membantu dengan tepat";
+    }
+}
