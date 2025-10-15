@@ -1,0 +1,36 @@
+public class SupportSystem{
+    private InputReader reader;
+    private Responder responder;
+
+    public SupportSystem(){
+        reader = new InputReader();
+        responder = new Responder();
+    }
+
+    public void start(){
+        System.out.println("==========================================");
+        System.out.println("       FRS SUPPORT SYSTEM (mySupport)     ");
+        System.out.println("==========================================");
+        System.out.println("Selamat datang di sistem bantuan FRS");
+        System.out.println("Ketik 'bye' untuk keluar dari sesi bantuan");
+        System.out.println("------------------------------------------");
+
+        while(true){
+            System.out.print("> ");
+            String input = reader.getInput();
+            if (input.equalsIgnoreCase("bye")){
+                break;
+            }
+
+            String response = responder.generateResponse(input);
+            System.out.println(response);
+        }
+
+        System.out.println("\nTerima kasih telah menggunakan sistem bantuan FRS - mySupport");
+        System.out.println("Permasalahan Anda akan kami tindaklanjuti secepatnya");
+    }
+    public static void main(String[] args){
+        SupportSystem system = new SupportSystem();
+        system.start();
+    }
+}
