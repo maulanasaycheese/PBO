@@ -1,0 +1,20 @@
+public class Manusia extends MakhlukHidup {
+    
+    public Manusia(String nama) {
+        super(nama, "Manusia");
+    }
+ 
+    @Override
+    public void bergerak() {
+        System.out.println(this.nama + " bergerak dengan berjalan atau berlari.");
+    }
+ 
+    @Override
+    public void berkembangBiak() {
+        System.out.println(this.nama + " berkembang biak dengan melahirkan.");
+    }
+    
+    public void berpikir() {
+        System.out.println(this.nama + " sedang menggunakan akal untuk berpikir.");
+    }
+}
