@@ -1,0 +1,24 @@
+public abstract class MakhlukHidup {
+    
+    protected String nama;
+    protected String jenisMakhluk;
+    
+    public MakhlukHidup(String nama, String jenisMakhluk) {
+        this.nama = nama;
+        this.jenisMakhluk = jenisMakhluk;
+    }
+    
+    public void bernapas() {
+        System.out.println(this.nama + " (" + this.jenisMakhluk + ") sedang bernapas.");
+    }
+    
+    public abstract void bergerak();
+    public abstract void berkembangBiak();
+    
+    public String getNama() {
+        return nama;
+    }
+    public String getJenisMakhluk() {
+        return jenisMakhluk;
+    }
+}
