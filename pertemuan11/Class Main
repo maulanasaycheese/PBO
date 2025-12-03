@@ -1,0 +1,26 @@
+import java.util.*;
+ 
+public class Main{
+    public static void main(String[] args){
+        List<Kendaraan> daftarKendaraan = new ArrayList<>();
+        List<Penyewaan> daftarPenyewaan = new ArrayList<>();
+        
+        daftarKendaraan.add(new Mobil("Toyota", "Innova", 2018, 4));
+        daftarKendaraan.add(new Mobil("Toyota", "Avanza", 2022, 4));
+        daftarKendaraan.add(new Mobil("Toyota", "Fortuner", 2018, 4));
+        daftarKendaraan.add(new Motor("Honda", "Vario 125", 2021, 2));
+        daftarKendaraan.add(new Sepeda("Polygon", "Xtrada", 2019, "Gunung"));
+        
+        daftarPenyewaan.add(new Penyewaan("Aan", daftarKendaraan.get(0)));
+        daftarPenyewaan.add(new Penyewaan("Bagus", daftarKendaraan.get(2)));
+        
+        System.out.println("=== Daftar Kendaraan Tersedia ===");
+        for (Kendaraan k : daftarKendaraan) {
+            System.out.println(k.getInfo());
+        }
+        System.out.println("\n=== Daftar Penyewa ===");
+        for (Penyewaan p : daftarPenyewaan) {
+            System.out.println(p.getDetail());
+        }
+    }
+}
