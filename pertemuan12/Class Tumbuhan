@@ -1,0 +1,20 @@
+public class Tumbuhan extends MakhlukHidup {
+    
+    public Tumbuhan(String nama) {
+        super(nama, "Tumbuhan");
+    }
+
+    @Override
+    public void bergerak() {
+        System.out.println(this.nama + " bergerak secara pasif (tumbuh mengikuti cahaya/air).");
+    }
+
+    @Override
+    public void berkembangBiak() {
+        System.out.println(this.nama + " berkembang biak dengan biji atau tunas.");
+    }
+    
+    public void berfotosintesis() {
+        System.out.println(this.nama + " sedang melakukan fotosintesis.");
+    }
+}
