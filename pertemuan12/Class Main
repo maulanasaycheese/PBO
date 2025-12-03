@@ -1,0 +1,36 @@
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("ABSTRACT CLASS");
+        
+        Manusia agus = new Manusia("AGUS");
+        System.out.println("\n** Objek 1: " + agus.getNama() + " **");
+        agus.bernapas();         
+        agus.bergerak();         
+        agus.berkembangBiak();   
+        agus.berpikir();         
+        
+        Hewan kucing = new Hewan("Kucing", "merayap dan melompat");
+        System.out.println("\n** Objek 2: " + kucing.getNama() + " **");
+        kucing.bernapas();
+        kucing.bergerak();
+        kucing.berkembangBiak();
+        
+        Tumbuhan anggrek = new Tumbuhan("Anggrek");
+        System.out.println("\n** Objek 3: " + anggrek.getNama() + " **");
+        anggrek.bernapas();
+        anggrek.bergerak();
+        anggrek.berkembangBiak();
+        anggrek.berfotosintesis(); 
+ 
+        System.out.println("");
+        MakhlukHidup[] daftarMakhluk = new MakhlukHidup[3];
+        daftarMakhluk[0] = agus;
+        daftarMakhluk[1] = kucing;
+        daftarMakhluk[2] = anggrek;
+ 
+        for (MakhlukHidup m : daftarMakhluk) {
+            System.out.print(m.getNama() + " bertindak: ");
+            m.bergerak();
+        }
+    }
+}
