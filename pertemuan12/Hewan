@@ -1,0 +1,19 @@
+public class Hewan extends MakhlukHidup {
+    
+    private String caraGerak;
+    
+    public Hewan(String nama, String caraGerak) {
+        super(nama, "Hewan");
+        this.caraGerak = caraGerak;
+    }
+ 
+    @Override
+    public void bergerak() {
+        System.out.println(this.nama + " bergerak dengan cara " + this.caraGerak + ".");
+    }
+ 
+    @Override
+    public void berkembangBiak() {
+        System.out.println(this.nama + " berkembang biak dengan bertelur atau melahirkan.");
+    }
+}
