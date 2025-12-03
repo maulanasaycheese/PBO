@@ -1,0 +1,21 @@
+public class SalesItemTest {
+    public static void main(String[] args) {
+        SalesItem item = new SalesItem("Iphone 15", 11000000);
+ 
+        item.addComment("Aan", "Bagus banget performanya!", 5);
+        item.addComment("Bagus", "Kurang bagus", 6);
+        item.addComment("Ela", "Desainnya keren tapi berat.", 4);
+ 
+        System.out.println("\n=== Informasi Item ===");
+        item.showInfo();
+        
+ 
+        System.out.println("\n=== Komentar Paling Membantu ===");
+        Comment best = item.findMostHelpfulComment();
+        if (best != null) {
+            best.print();
+        } else {
+            System.out.println("Belum ada komentar.");
+        }
+    }
+}
