@@ -1,0 +1,136 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.Map;
+import java.util.HashMap;
+
+public class Login extends JFrame
+{
+    private JTextField fieldUsername;
+    private JPasswordField fieldPassword;
+    private JButton btnLogin;
+    private JButton btnCancel;
+    private JCheckBox checkPassword;
+    private Map<String, String> userCreds = new HashMap<>();
+
+    public Login() {
+        createUserCreds();
+        createComponents();
+        componentsLayout();
+        attachListeners();
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+        setResizable(false);
+    }
+
+    private void createUserCreds() {
+        userCreds.put("uburubur", "ruburubu");
+    }
+
+    private void createComponents() {
+        fieldUsername = new JTextField(20);
+        fieldPassword = new JPasswordField(20);
+        btnCancel = new JButton("Cancel");
+        btnLogin = new JButton("Login");
+        checkPassword = new JCheckBox("Show password");
+    }
+
+    private void componentsLayout() {
+        JPanel content = new JPanel(new BorderLayout(10, 10));
+        content.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        
+        JPanel fields = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        
+        c.insets = new Insets(6, 6, 6, 6);
+        c.anchor = GridBagConstraints.WEST;
+
+        c.gridx = 0; c.gridy = 0;
+        fields.add(new JLabel("Username:"), c);
+        c.gridx = 1;
+        fields.add(fieldUsername, c);
+
+        c.gridx = 0; c.gridy = 1;
+        fields.add(new JLabel("Password:"), c);
+        c.gridx = 1;
+        fields.add(fieldPassword, c);
+
+        c.gridx = 1; c.gridy = 2;
+        fields.add(checkPassword, c);
+
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttons.add(btnLogin);
+        buttons.add(btnCancel);
+
+        content.add(fields, BorderLayout.CENTER);
+        content.add(buttons, BorderLayout.SOUTH);
+
+        setContentPane(content);
+    }
+
+    private void attachListeners() {
+        checkPassword.addActionListener(e -> {
+            fieldPassword.setEchoChar(checkPassword.isSelected() ? (char)0 : '\u2022');
+        });
+
+        btnCancel.addActionListener(e -> {
+            fieldUsername.setText("");
+            fieldPassword.setText("");
+            fieldUsername.requestFocus();
+        });
+
+        btnLogin.addActionListener(e -> attemptLogin());
+
+        Action enterAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                attemptLogin();
+            }
+        };
+        fieldUsername.addActionListener(enterAction);
+        fieldPassword.addActionListener(enterAction);
+    }
+
+    private void attemptLogin() {
+        String user = fieldUsername.getText().trim();
+        String pass = new String(fieldPassword.getPassword());
+
+        if (user.isEmpty() || pass.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username or password can't be empty.", "Login error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (authenticate(user, pass)) {
+            JOptionPane.showMessageDialog(this, "Hi, " + user + "!", "Login success", JOptionPane.INFORMATION_MESSAGE);
+            openMainWindow(user);
+        } else {
+            JOptionPane.showMessageDialog(this, "Wrong username or password.", "Login fail", JOptionPane.ERROR_MESSAGE);
+            fieldPassword.setText("");
+            fieldPassword.requestFocus();
+        }
+    }
+
+    private boolean authenticate(String username, String password) {
+        if (!userCreds.containsKey(username)) return false;
+        String expected = userCreds.get(username);
+        return expected.equals(password);
+    }
+
+    private void openMainWindow(String username) {
+        JFrame main = new JFrame("Main - Welcome " + username);
+        main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        main.setSize(400, 200);
+        main.setLocationRelativeTo(this);
+        JLabel lbl = new JLabel("Login as " + username, SwingConstants.CENTER);
+        main.add(lbl);
+        main.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new Login().setVisible(true);
+        });
+    }
+}
